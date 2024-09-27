@@ -1,0 +1,248 @@
+/* Navbar styling */
+@media (min-width: 992px) {
+    .navbar-expand-lg .navbar-collapse {
+        display: flex !important;
+        flex-basis: auto;
+        margin-right: 150px;
+    }
+}
+.navbar-dark {
+    background-color: #b84c38; /* Rich red color */
+}
+
+.navbar-dark .navbar-nav .nav-link {
+    color: #fff;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.navbar-dark .navbar-nav .nav-link:hover {
+    color: #ffd700;
+}
+
+/* Footer */
+footer {
+    background-color: #333;
+    color: #fff;
+}
+
+footer a {
+    color: White;
+    text-decoration: none;
+}
+
+footer a:hover {
+    color: #fff;
+    text-decoration: underline;
+}
+
+/* Recipe Card Styling */
+.card {
+    border: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+.card-title {
+    color: #333;
+}
+
+.card img {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+/* Back to Home Button */
+.btn-primary {
+    background-color: #b84c38;
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #a03b2c;
+}
+
+/* Cart Icon */
+.cart-icon img {
+    width: 30px;
+    height: 30px;
+}
+
+.badge {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    padding: 4px 8px;
+    font-size: 12px;
+}
+
+.bg-primary {
+    --bs-bg-opacity: 1;
+    background-color: #b84c38 !important;
+}
+
+.row-order{
+    padding-bottom: 20px;
+}
+
+.cart-hover {
+    transition: 0.70s;
+    -webkit-transition: 0.70s;
+    -moz-transition: 0.70s;
+    -ms-transition: 0.70s;
+    -o-transition: 0.70s;
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.cart-hover:hover {
+    transition: 0.70s;
+    -webkit-transition: 0.70s;
+    -moz-transition: 0.70s;
+    -ms-transition: 0.70s;
+    -o-transition: 0.70s;
+    -webkit-transform: rotate(40deg);
+    -moz-transform: rotate(40deg);
+    -o-transform: rotate(40deg);
+    -ms-transform: rotate(40deg);
+    transform: rotate(40deg);
+}
+
+/* Star Rating Styles */
+#star-rating {
+    display: inline-block;
+  }
+  
+  #star-rating .star {
+    font-size: 1.5rem;
+    color: lightgray;
+    cursor: pointer;
+  }
+  
+  #star-rating .star.selected {
+    color: gold;
+  }
+  /* Cooking Animation Styles */
+#cooking-animation {
+    position: relative;
+    width: 150px;
+    height: 200px;
+  }
+  
+  .chef-hat-animation {
+    position: absolute;
+    top: -40px;
+    left: 25px;
+    width: 100px;
+    animation: bounce 2s infinite;
+  }
+  
+  .cooking-pot-animation {
+    width: 150px;
+  }
+  
+  .steam-container {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  
+  .steam {
+    width: 15px;
+    height: 30px;
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: 50%;
+    position: absolute;
+    top: 30px;
+    animation: steam-rise 3s infinite;
+  }
+  
+  #steam-1 {
+    left: 20px;
+    animation-delay: 0s;
+  }
+  
+  #steam-2 {
+    left: 45px;
+    animation-delay: 0.5s;
+  }
+  
+  #steam-3 {
+    left: 70px;
+    animation-delay: 1s;
+  }
+  
+  @keyframes bounce {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+  
+  @keyframes steam-rise {
+    0% {
+      transform: translateY(0) scale(1);
+      opacity: 0.8;
+    }
+    100% {
+      transform: translateY(-100px) scale(1.5);
+      opacity: 0;
+    }
+  }
+  
+  /* Center the carousel and set a maximum width */
+#italyCarousel {
+    margin: 0 auto;
+    max-width: 600px;
+  }
+  
+  /* Resize carousel images */
+  .carousel-item img {
+    height: 400px; /* Set image height */
+    object-fit: cover;
+  }
+  
+  /* Ensure the arrows are correctly positioned */
+  .carousel-control-prev-icon,
+  .carousel-control-next-icon {
+    background-color: black;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+  }
+  
+  /* Align the arrows with the resized carousel */
+  .carousel-control-prev, .carousel-control-next {
+    width: 5%;
+  }
+
+  /* Center the filter dropdown button */
+.dropdown {
+    margin-bottom: 20px;
+}
+
+/* Menu item card styling */
+.menu-item .card {
+    border: 1px solid #e0e0e0;
+    transition: box-shadow 0.3s ease;
+}
+
+.menu-item .card:hover {
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+}
+.modal-body img {
+    max-height: 80vh; /* Keeps the image within the viewport height */
+    width: auto; /* Adjusts width automatically */
+    margin: auto; /* Centers the image */
+    display: block; /* Makes it block-level to center it */
+}
+
+  
+  

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Stark's Italian Bistro</title>
+    <link rel="stylesheet" href="css\style.css">
+    <script src="https://js.stripe.com/v3/"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="nav-logo">
+                <img src="images\forkknife.jpg" alt="Fork Icon">
+            </div>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="blog.html">Blog</a></li>
+                <li><a href="order.html">Order</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h1>Checkout</h1>
+
+        <section class="order-summary">
+            <h2>Your Order</h2>
+            <ul id="order-items">
+                <!-- Order items will be dynamically added here -->
+            </ul>
+            <p id="order-total">Total: $0.00</p>
+            
+            <div class="payment-method">
+                <h3>Select Payment Method</h3>
+                <label>
+                    <input type="radio" name="payment-method" value="credit-card" checked>
+                    Credit Card
+                </label>
+            </div>
+
+            <div id="stripe-payment-section" style="display: none;">
+                <h3>Credit Card Payment</h3>
+                <form id="payment-form">
+                    <div id="card-element"></div>
+                    <button id="complete-order-btn" type="submit">Complete Order</button>
+                </form>
+                <div id="card-errors" role="alert"></div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Stark's Italian Bistro. All rights reserved.</p>
+        <ul>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Service</a></li>
+            <li><a href="#">Help</a></li>
+            <li><a href="#">Contact Us</a></li>
+        </ul>
+    </footer>
+
+    <script src="javascript\order.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const orderItemsList = document.getElementById('order-items');
+            const orderTotalElement = document.getElementById('order-total');
+            const paymentForm = document.getElementById('payment-form');
+            const stripePaymentSection = document.getElementById('stripe-payment-section');
+            const cardElement = document.getElementById('card-element');
+            const cardErrors = document.getElementById('card-errors');
+            const completeOrderBtn = document.getElementById('complete-order-btn');
+            const queryString = window.location.search.substring(1);
+            const urlParams = new URLSearchParams(queryString);
+            const taxRate = 0.07; // 7% tax
+
+            let items = [];
+            for (const [key, value] of urlParams.entries()) {
+                if (key === 'item') {
+                    items.push({
+                        name: value,
+                        price: parseFloat(urlParams.get('price')),
+                        image: urlParams.get('image')
+                    });
+                }
+            }
+
+            let totalPrice = 0;
+            items.forEach(item => {
+                const itemElement = document.createElement('li');
+                itemElement.innerHTML = `
+                    <img src="${item.image}" alt="${item.name}">
+                    <span>${item.name} - $${item.price.toFixed(2)}</span>
+                `;
+                orderItemsList.appendChild(itemElement);
+                totalPrice += item.price;
+            });
+
+            const tax = totalPrice * taxRate;
+            const finalTotal = totalPrice + tax;
+            orderTotalElement.textContent = `Total: $${finalTotal.toFixed(2)}`;
+
+            const paymentMethodRadios = document.querySelectorAll('input[name="payment-method"]');
+            paymentMethodRadios.forEach(radio => {
+                radio.addEventListener('change', function() {
+                    if (this.value === 'credit-card') {
+                        stripePaymentSection.style.display = 'block';
+                    } else {
+                        stripePaymentSection.style.display = 'none';
+                    }
+                });
+            });
+
+            // Initialize Stripe
+            const stripe = Stripe('YOUR_PUBLISHABLE_KEY'); // Replace with your publishable key
+            const elements = stripe.elements();
+            const card = elements.create('card');
+            card.mount('#card-element');
+
+            paymentForm.addEventListener('submit', async (event) => {
+                event.preventDefault();
+                const {token, error} = await stripe.createToken(card);
+
+                if (error) {
+                    cardErrors.textContent = error.message;
+                } else {
+                    // Send token and order details to your server
+                    fetch('/charge', { // Replace with your server endpoint
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            token: token.id,
+                            amount: finalTotal * 100, // Amount in cents
+                            items: items
+                        }),
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert('Thank you for your order!');
+                            // Optionally, you can redirect to a thank you page
+                        } else {
+                            alert('Payment failed. Please try again.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Payment failed. Please try again.');
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
